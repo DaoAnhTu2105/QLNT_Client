@@ -7,5 +7,4 @@ export default defineConfig({
   server: {
     open: "/login",
   },
-  base: "/login",
 });
