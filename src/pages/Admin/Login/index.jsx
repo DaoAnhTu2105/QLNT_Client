@@ -13,17 +13,27 @@ import {
 } from "antd";
 import "../../../css/Admin/Login/index.css";
 import backgroundImage from "../../../assets/images/backgroundLogin.png";
+import { login } from "../../../apis/LoginAdmin/index.js";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 const Login = () => {
   const onFinish = (values) => {
-    console.log("Success:", values);
+    const staffLogin = {
+      username: values.username,
+      password: values.password,
+    };
+    try {
+      login(staffLogin);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  console.log("login");
+
   return (
     <>
       <div className="login-main-container">
@@ -45,7 +55,9 @@ const Login = () => {
             >
               <div style={{ width: "80%", maxWidth: "500px" }}>
                 <Divider>
-                  <Title level={2}>Đăng nhập</Title>
+                  <Title level={2} style={{ margin: 0 }}>
+                    Đăng nhập
+                  </Title>
                 </Divider>
                 <Form
                   name="login-form"
