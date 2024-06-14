@@ -13,18 +13,28 @@ import {
 } from "antd";
 import "../../../css/Admin/Login/index.css";
 import backgroundImage from "../../../assets/images/backgroundLogin.png";
-import { login } from "../../../apis/LoginAdmin/index.js";
+import { login, getCookie } from "../../../apis/LoginAdmin/index.js";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 const Login = () => {
-  const onFinish = (values) => {
+  const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["QLNT_Cookie"]);
+
+  const onFinish = async (values) => {
     const staffLogin = {
       username: values.username,
       password: values.password,
     };
     try {
-      login(staffLogin);
+      const loginAdmin = await login(staffLogin);
+      if (loginAdmin === 1) {
+        console.log("Cookies after login:");
+      } else {
+        console.log("Error");
+      }
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -113,6 +123,9 @@ const Login = () => {
                 </Form>
               </div>
             </div>
+            <Button type="primary" htmlType="submit" onClick={getCookie}>
+              Check
+            </Button>
             <div>
               <Image
                 width={770}
